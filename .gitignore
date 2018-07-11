@@ -1,0 +1,7 @@
+/Net-StatsD-Client-Telegraf-*
+/.build
+/_build*
+/Build
+MYMETA.*
+!META.json
+/.prove
