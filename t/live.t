@@ -1,14 +1,45 @@
+#!perl
 use strict;
 use warnings;
-
-use FindBin;
-use lib "$FindBin::Bin/lib";
-
 use Test::More;
-use TestStatsd;
-$TestStatsd::ALWAYS_SAMPLE = 1;
+
+use IO::Socket;
+
+plan skip_all => "Live testing disabled except for RELEASE_TESTING" unless $ENV{RELEASE_TESTING};
+
+my $sock = IO::Socket::INET->new(
+  LocalPort => 8125,
+  Proto => "udp",
+  Blocking => 0,
+) or plan skip_all => "Can't listen UDP";
+
+BEGIN {
+  *CORE::GLOBAL::rand = sub { 0 }; # disable sampling
+}
 
 use_ok 'Net::Statsd::Client::Telegraf';
+
+sub sends_ok (&@) {
+  my ($code, $pattern, $desc) = @_;
+  my $ok = eval {
+    $code->();
+    1;
+  };
+  if (!$ok) {
+    diag "Died: $@";
+    fail $desc;
+    return;
+  }
+  my $buf;
+  my $ret;
+  do { $ret = recv $sock, $buf, 8192, 0 } while !defined $ret && $!{EAGAIN};
+  if (!defined $ret) {
+    diag "recv failed with $!";
+    fail $desc;
+    return;
+  }
+  like $buf, $pattern, $desc;
+}
 
 my $client = Net::Statsd::Client::Telegraf->new;
 
