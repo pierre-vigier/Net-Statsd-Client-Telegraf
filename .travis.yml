@@ -11,4 +11,4 @@ env:
   - RELEASE_TESTING=1
 
 script:
-  - prove -lr t
+  - prove -Ilib -r t
