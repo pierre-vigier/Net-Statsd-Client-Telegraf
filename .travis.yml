@@ -1,0 +1,14 @@
+language: perl
+
+perl:
+    - "5.10"
+
+before_install:
+  - cpanm --notest Test::More
+  - cpanm --notest --installdeps .
+
+env:
+  - RELEASE_TESTING=1
+
+script:
+  - prove -lr t
