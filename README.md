@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/pierre-vigier/Net-Statsd-Client-Telegraf.svg?branch=master)](https://travis-ci.org/pierre-vigier/Net-Statsd-Client-Telegraf)
+
 # NAME
 
 Net::StatsD::Client::Telegraf - Send data to the statsd plugin of telegraf, with support for influxDB's tagging system
