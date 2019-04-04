@@ -5,3 +5,6 @@
 MYMETA.*
 !META.json
 /.prove
+/local
+.perl-version
+cpanfile.snapshot
