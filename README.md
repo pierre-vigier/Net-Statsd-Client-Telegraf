@@ -7,7 +7,7 @@ Net::StatsD::Client::Telegraf - Send data to the statsd plugin of telegraf, with
 # SYNOPSIS
 
     use Net::Statsd::Client::Telegraf;
-    my $stats = Net::Statsd::Client->new(prefix => "service.frobnitzer.", tags => { job => "my_program" } );
+    my $stats = Net::Statsd::Telegraf->new(prefix => "service.frobnitzer.", tags => { job => "my_program" } );
     $stats->increment("requests", tags => { foo => "bar" }, sample_rate => 0.2 );
     my $timer = $stats->timer("request_duration");
     # ... do something expensive ...
